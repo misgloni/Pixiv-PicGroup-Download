@@ -209,6 +209,10 @@ namespace PixivDownload
             { 
                 downloadUrl="https://www.pixiv.net/member_illust.php?mode=manga_big&illust_id="+id+"&page="+page;
             }
+            public DownloadUrl(String id)
+            {
+                downloadUrl="https://www.pixiv.net/member_illust.php?mode=manga_big&illust_id="+id;
+            }
         }
 
         public bool downloadImages(String id,bool isSame=false)
@@ -233,17 +237,20 @@ namespace PixivDownload
             Directory.CreateDirectory(downloadDirectory);
 
 
+            DownloadUrl downloadUrl = new DownloadUrl(id);//网站显示页面
+            String strGet = httpRequest.sendGet(downloadUrl.Url);
+            //"original":"https:\/\/i.pximg.net\/img-original\/img\/2019\/08\/22\/21\/30\/44\/76401893_p0.jpg"
+            String pattern="\"original\":\"(.+?)\"";
+            Match match = Regex.Match(strGet, pattern);
+            //Match match = Regex.Match(strGet, "<body><img src=\"(.+)\" onclick");
+            String url = match.Groups[1].Value;//图片链接
+            String model=url.Replace("\\", "");
+
             for (picPage=0; ;picPage++ )
             {
                 try
                 {
-                    DownloadUrl downloadUrl = new DownloadUrl(id, picPage);//网站显示页面
-                    String strGet = httpRequest.sendGet(downloadUrl.Url);
-                    Match match = Regex.Match(strGet, "<body><img src=\"(.+)\" onclick");
-                    String url = match.Groups[1].Value;//图片链接
-
-                    
-
+                    url=model.Replace("p0","p"+picPage);
                     //防止中途被删除
                     if (Directory.Exists(downloadDirectory))
                     {
