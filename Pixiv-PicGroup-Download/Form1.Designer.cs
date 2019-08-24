@@ -36,6 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.sameDirCheckBox = new System.Windows.Forms.CheckBox();
+            this.info_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // downloadButton
@@ -108,11 +109,20 @@
             this.sameDirCheckBox.Text = "是否下在同一个文件夹";
             this.sameDirCheckBox.UseVisualStyleBackColor = true;
             // 
+            // info_label
+            // 
+            this.info_label.Location = new System.Drawing.Point(99, 177);
+            this.info_label.Name = "info_label";
+            this.info_label.Size = new System.Drawing.Size(129, 35);
+            this.info_label.TabIndex = 8;
+            this.info_label.Click += new System.EventHandler(this.label4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.info_label);
             this.Controls.Add(this.sameDirCheckBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -139,6 +149,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox sameDirCheckBox;
+        private System.Windows.Forms.Label info_label;
     }
 }
 

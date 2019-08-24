@@ -1,0 +1,8 @@
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\bin\Release\Pixiv-PicGroup-Download.exe.config
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\bin\Release\Pixiv-PicGroup-Download.exe
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\bin\Release\Pixiv-PicGroup-Download.pdb
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\obj\Release\WindowsFormsApplication2.Form1.resources
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\obj\Release\PixivPicGroupDownload.Properties.Resources.resources
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\obj\Release\Pixiv-PicGroup-Download.csproj.GenerateResource.Cache
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\obj\Release\Pixiv-PicGroup-Download.exe
+F:\Github\Pixiv-PicGroup-Download\Pixiv-PicGroup-Download\obj\Release\Pixiv-PicGroup-Download.pdb

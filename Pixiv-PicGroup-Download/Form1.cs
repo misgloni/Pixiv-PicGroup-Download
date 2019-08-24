@@ -10,14 +10,18 @@ using System.Windows.Forms;
 using PixivDownload;
 using System.IO;
 using System.Web;
-
+using System.Threading;
 namespace WindowsFormsApplication2
 {
+
     public partial class Form1 : Form
     {
+        SynchronizationContext context;
+        DownloadProcess downloadProcess;
         public Form1()
         {
             InitializeComponent();
+            context=SynchronizationContext.Current;
         }
 
         String[] readFile()
@@ -31,8 +35,9 @@ namespace WindowsFormsApplication2
                 reStr[0] = sr.ReadLine();
                 reStr[1] = sr.ReadLine();
                 for (int i = 0; i < reStr.Length; i++) { if (reStr[i] == null) { return null; } }
-                return reStr;
                 fs.Close();
+                sr.Close();
+                return reStr;
             }
             catch (System.IO.FileNotFoundException)
             {
@@ -50,8 +55,10 @@ namespace WindowsFormsApplication2
             }
         }
 
+
         private void button1_Click(object sender, EventArgs e)
         {
+            banButton("1");
             String username = userBox.Text;
             String password = pwdBox.Text;
             String id = idBox.Text;
@@ -63,6 +70,7 @@ namespace WindowsFormsApplication2
             if (pixiv.login() == false)
             {
                 MessageBox.Show("登录失败");
+                return;
             }
             else
             {
@@ -72,17 +80,52 @@ namespace WindowsFormsApplication2
                 sr.Close();
                 fs.Close();
             }
-            if (pixiv.downloadImages(id,sameDirCheckBox.Checked) == false)
+            downloadProcess=pixiv.downloadImages(id, sameDirCheckBox.Checked);
+            if (downloadProcess == null)
             {
                 MessageBox.Show("下载失败");
             }
-            else
+
+            downloadProcess.start();
+            Thread thread = new Thread(this.run);
+            thread.Start();
+        }
+
+        //监控线程
+        void run()
+        {
+            for (; ; )
             {
-                MessageBox.Show("下载成功");
+                Thread.Sleep(100);
+                context.Post(setInfoLabel, "正在下载第"+downloadProcess.PicPage+"张");
+                if (!downloadProcess.Started)
+                {
+                    context.Post(setInfoLabel, "下载成功!!");
+                    downloadProcess = null;
+                    context.Post(banButton, "0");
+                    break;
+                }
             }
+        }
 
+        //用于post
+        void setInfoLabel(object text)
+        {
+            info_label.Text = text.ToString();
+        }
 
-            
+        void banButton(object ban)
+        {
+            if (ban.ToString().Equals("1"))
+            {
+                downloadButton.Enabled = false;
+                downloadButton.Text = "正在下载";
+            }
+            else 
+            {
+                downloadButton.Enabled = true;
+                downloadButton.Text = "下载图片";
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -91,6 +134,11 @@ namespace WindowsFormsApplication2
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
         {
 
         }
